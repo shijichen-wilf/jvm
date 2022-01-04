@@ -89,27 +89,26 @@ class FieldInfo {
     this.attributes = attributes;
   }
 
-	public ConstantValue getConstantValue(ClassFile classFile) {
-		ConstantValue contantValue = null;
-		final CpInfo[] constantPool = classFile.constantPool;
-			for (AttributeInfo attribute : this.attributes) {
-			  final String attrName = Utils.getUtf8(constantPool, attribute.attributeNameIndex.val);
-			  if (Objects.equals("ConstantValue", attrName)) {
-				final byte[] bytes = attribute.info;
-				try (ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
-				    final DataInputStream dis = new DataInputStream(bis)
-				) {
-				  final int constantValueIndex = dis.readUnsignedShort();
-				  contantValue = new ContantValue(constantValueIndex);
-				} catch (IOException e) {
-				  e.printStackTrace();
-				  throw new IllegalStateException("unknown exception");
-				}
-			  }
-			}
-			return contantValue;
-		}
-	}
+    public ConstantValue getConstantValue(ClassFile classFile) {
+        ConstantValue constantValue = null;
+        final CpInfo[] constantPool = classFile.constantPool;
+        for (AttributeInfo attribute : this.attributes) {
+            final String attrName = Utils.getUtf8(constantPool, attribute.attributeNameIndex.val);
+            if (Objects.equals("ConstantValue", attrName)) {
+                final byte[] bytes = attribute.info;
+                try (ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
+                     final DataInputStream dis = new DataInputStream(bis)
+                ) {
+                    final int constantValueIndex = dis.readUnsignedShort();
+                    constantValue = new ConstantValue(constantValueIndex);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    throw new IllegalStateException("unknown exception");
+                }
+            }
+        }
+        return constantValue;
+    }
 }
 
 // https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.6
@@ -227,13 +226,13 @@ class U4 {
   }
 }
 
-class ConstantValue {
-	int constantValueIndex;
-
-	public ConstantValue(int constantValueIndex) {
-		this.constantValueIndex = constantValueIndex;
-	}
-}
+//class ConstantValue {
+//	int constantValueIndex;
+//
+//	public ConstantValue(int constantValueIndex) {
+//		this.constantValueIndex = constantValueIndex;
+//	}
+//}
 
 /**
 class ExceptionTableItem {

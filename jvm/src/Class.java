@@ -26,6 +26,26 @@ class Class {
   }
 }
 
+/**
+ * Class Field属性，还存在一些问题
+ */
+//class Field {
+//
+//  int accessFlags;
+//  String name;
+//  String descriptor;
+//  ConstantValue constantValue;
+//  Class clazz;
+//
+//  public Field(int accessFlags, String name, String descriptor, ConstantValue constantValue) {
+//    this.accessFlags = accessFlags;
+//    this.name = name;
+//    this.descriptor = descriptor;
+//    this.constantValue = constantValue;
+//  }
+//
+//}
+
 class Method {
 
   int accessFlags;
@@ -166,3 +186,14 @@ class Code {
     return instructionMap;
   }
 }
+
+/**
+ * Field ConstantValue类
+ */
+//class ConstantValue {
+//  int constantValueIndex;
+//
+//  public ConstantValue(int constantValueIndex) {
+//    this.constantValueIndex = constantValueIndex;
+//  }
+//}

@@ -197,7 +197,32 @@ private Class defineClass(ClassFile classFile) {
     }
     // fileds 将 FiledInfo 转换为 FIled
     // TODO
-
+//  Field[] fields = new Field[classFile.fieldsCount.val];
+//  for (int i = 0; i < fields.length; i++) {
+//    final FieldInfo fieldInfo = classFile.fields[i];
+//    final int fieldAccessFlags = fieldInfo.accessFlags.val;
+//    final String fieldName = Utils.getUtf8(cp, fieldInfo.nameIndex.val);
+//    final String fieldDescriptor = Utils.getUtf8(cp, fieldInfo.descriptorIndex.val);
+//    // code
+//    ConstantValue constantValue = null;
+//    for (AttributeInfo attribute : fieldInfo.attributes) {
+//      final String attrName = Utils.getUtf8(cp, attribute.attributeNameIndex.val);
+//      if (Objects.equals("Code", attrName)) {
+//        final byte[] bytes = attribute.info;
+//        try (ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
+//             final DataInputStream dis = new DataInputStream(bis)
+//        ) {
+//          final int constantValueIndex = dis.readUnsignedShort();
+//
+//          constantValue = new ConstantValue(constantValueIndex);
+//        } catch (IOException e) {
+//          e.printStackTrace();
+//          throw new IllegalStateException("unknown exception");
+//        }
+//      }
+//    }
+//    fields[i] = new Field(fieldAccessFlags, fieldName, fieldDescriptor, constantValue);
+//  }
      // 创建实例，并设置状态为 CLASS_LOADED
     final Class clazz = new Class(name, superClass, methods, classFile);
     clazz.stat = Const.CLASS_LOADED;
