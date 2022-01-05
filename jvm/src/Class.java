@@ -64,6 +64,15 @@ class Method {
   public Map<Integer, Instruction> getInstructions() {
     return this.code.getInstructions(clazz.classFile.constantPool);
   }
+
+  public int getMaxLocals() {
+    return this.code.maxLocals;
+  }
+
+  public int getMaxStack() {
+    return this.code.maxStack;
+  }
+
 }
 
 class ExceptionTableItem {

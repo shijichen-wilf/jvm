@@ -56,6 +56,18 @@ public class ClassLoaderTest {
     Assert.assertNotNull(clazz.superClass, "Test super class is not null");
     Assert.assertEq(2, clazz.methods.length, "Test has 2 methods");
   }
+  public static void testLoadClass_cache() {
+    final String home = System.getenv("JAVA_HOME");
+    String runtimeJarPath = home + "/jre/lib/rt.jar";
+    String classpath = runtimeJarPath + ":" + "misc";
+    final ClassLoader loader = new ClassLoader(classpath);
+
+    // load Test
+    final Class clazz = loader.findClass("Test");
+    final Class clazz2 = loader.findClass("Test");
+
+    Assert.assertEq(clazz, clazz2, "classloader cache");
+  }
 
 }
 

@@ -114,6 +114,13 @@ class ClassLoader {
    * @return {@link Class} 实例
    */
   Class findClass(String name) {
+    // 5 类缓存
+    Class cacheClass = MetaSpace.findClass(name);
+    if (cacheClass != null) {
+      return cacheClass;
+    }
+    
+
     // parse file
     ClassFile classFile = loadClassFileFromClasspath(this.classpath, name);
 
@@ -226,6 +233,7 @@ private Class defineClass(ClassFile classFile) {
      // 创建实例，并设置状态为 CLASS_LOADED
     final Class clazz = new Class(name, superClass, methods, classFile);
     clazz.stat = Const.CLASS_LOADED;
+    MetaSpace.putClass(name, clazz);
     return clazz;
 }
 

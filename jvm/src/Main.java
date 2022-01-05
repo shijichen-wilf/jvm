@@ -3,6 +3,8 @@ import java.util.*;
 import java.util.stream.*;
 
 // 栈帧
+/**
+ * 实验五重构
 class Frame {
 
   // 程序计数器，默认值为 0
@@ -13,308 +15,7 @@ class Frame {
   // 操作数栈
   public final Stack<Integer> operandStack = new Stack<>();
 }
-
-// 指令接口
-interface Instruction {
-
-  // offset, 字长， 因为字节码的长度不一致，一般情况下是 1，此处提供默认方法用来获取指定的字长。用来在指令结束时改变栈帧的程序计数器，使之指向下一条指令。
-  default int offset() {
-    return 1;
-  }
-
-  // 具体指令需要实现的方法，是指令自身的业务逻辑。
-  void eval(Frame frame);
-}
-
-// iconst_1
-class IConst1Inst implements Instruction {
-
-  @Override
-  public void eval(Frame frame) {
-    frame.operandStack.push(1);
-    frame.pc += offset();
-  }
-}
-
-// istore_0
-class IStore0Inst implements Instruction {
-
-  @Override
-  public void eval(Frame frame) {
-    frame.localVars.put(0, frame.operandStack.pop());
-    frame.pc += offset();
-  }
-}
-
-// iload_0
-class ILoad0Inst implements Instruction {
-
-  @Override
-  public void eval(Frame frame) {
-    frame.operandStack.push(frame.localVars.get(0));
-    frame.pc += offset();
-  }
-}
-
-// ireturn
-// 返回指令涉及到栈帧的一些特殊操作，暂时简单实现，输出操作数栈顶的数值
-class IReturnInst implements Instruction {
-
-  @Override
-  public void eval(Frame frame) {
-    System.out.println(frame.operandStack.pop());
-
-    frame.pc += offset();
-  }
-}
-
-// iconst_0
-class IConst0Inst implements Instruction {
-
-  @Override
-  public void eval(Frame frame) {
-    frame.operandStack.push(0);
-    frame.pc += offset();
-  }
-}
-
-// istore_1
-class IStore1Inst implements Instruction {
-
-  @Override
-  public void eval(Frame frame) {
-    frame.localVars.put(1, frame.operandStack.pop());
-    frame.pc += offset();
-  }
-}
-
-// istore_2
-class IStore2Inst implements Instruction {
-
-  @Override
-  public void eval(Frame frame) {
-    frame.localVars.put(2, frame.operandStack.pop());
-    frame.pc += offset();
-  }
-}
-
-// iload_1
-class ILoad1Inst implements Instruction {
-
-  @Override
-  public void eval(Frame frame) {
-    frame.operandStack.push(frame.localVars.get(1));
-    frame.pc += offset();
-  }
-}
-
-// iload_2
-class ILoad2Inst implements Instruction {
-
-  @Override
-  public void eval(Frame frame) {
-    frame.operandStack.push(frame.localVars.get(2));
-    frame.pc += offset();
-  }
-}
-
-// bipush
-class BiPushInst implements Instruction {
-
-  public final int val;
-
-  public BiPushInst(int val) {
-    this.val = val;
-  }
-
-  @Override
-  public void eval(Frame frame) {
-    frame.operandStack.push(val);
-    frame.pc += offset();
-  }
-
-  @Override
-  public int offset() {
-    return 2;
-  }
-}
-
-// if_icmpgt
-class IfICmpGtInst implements Instruction {
-
-  public final int offset;
-
-  public IfICmpGtInst(int offset) {
-    this.offset = offset;
-  }
-
-/**
-  @Override
-  public void eval(Frame frame) {
-    int v2 = frame.operandStack.pop();
-    int v1 = frame.operandStack.pop();
-    if (v1 > v2) {
-      frame.pc = offset;
-    } else {
-      frame.pc += offset();
-    }
-  }
 */
-  @Override
-  public void eval(Frame frame) {
-    int v2 = frame.operandStack.pop();
-    int v1 = frame.operandStack.pop();
-    if (v1 > v2) {
-      frame.pc += offset;
-    } else {
-      frame.pc += offset();
-    }
-  }
-
-
-  @Override
-  public int offset() {
-    return 3;
-  }
-}
-
-// if_icmplt
-class IfICmpLtInst implements Instruction {
-
-  public final int offset;
-
-  public IfICmpLtInst(int offset) {
-    this.offset = offset;
-  }
-
-/**
-  @Override
-  public void eval(Frame frame) {
-    int v2 = frame.operandStack.pop();
-    int v1 = frame.operandStack.pop();
-    if (v1 > v2) {
-      frame.pc = offset;
-    } else {
-      frame.pc += offset();
-    }
-  }
-*/
-  @Override
-  public void eval(Frame frame) {
-    int v2 = frame.operandStack.pop();
-    int v1 = frame.operandStack.pop();
-    if (v1 < v2) {
-      frame.pc += offset;
-    } else {
-      frame.pc += offset();
-    }
-  }
-
-
-  @Override
-  public int offset() {
-    return 3;
-  }
-}
-
-// goto
-class GotoInst implements Instruction {
-
-  public final int offset;
-
-  public GotoInst(int offset) {
-    this.offset = offset;
-  }
-
-/**  @Override
-  public void eval(Frame frame) {
-    frame.pc = offset;
-  }
-*/
-  @Override
-  public void eval(Frame frame) {
-    frame.pc += offset;
-  }
-
-
-  @Override
-  public int offset() {
-    return 3;
-  }
-}
-
-// iinc
-class IIncInst implements Instruction {
-
-  public final int index;
-  public final int val;
-
-  public IIncInst(int index, int val) {
-    this.index = index;
-    this.val = val;
-  }
-
-  @Override
-  public void eval(Frame frame) {
-    int tmp = frame.localVars.get(index);
-    tmp += val;
-    frame.localVars.put(index, tmp);
-
-    frame.pc += offset();
-  }
-
-  @Override
-  public int offset() {
-    return 3;
-  }
-}
-
-// iadd
-class IAddInst implements Instruction {
-
-  @Override
-  public void eval(Frame frame) {
-    int v2 = frame.operandStack.pop();
-    int v1 = frame.operandStack.pop();
-    frame.operandStack.push(v1 + v2);
-
-    frame.pc += offset();
-  }
-}
-
-// isub
-class ISubInst implements Instruction {
-
-  @Override
-  public void eval(Frame frame) {
-    int v2 = frame.operandStack.pop();
-    int v1 = frame.operandStack.pop();
-    frame.operandStack.push(v1 - v2);
-
-    frame.pc += offset();
-  }
-}
-
-
-// 解释器
-class Interpreter {
-
-  /**
-   * 解释器运行
-   *
-   * @param frame 栈帧
-   * @param instructions 指令集合
-   */
-  public static void run(Frame frame, Map<Integer, Instruction> instructions) {
-    // 核心循环
-    do {
-      // 获取指令
-      Instruction instruction = instructions.get(frame.pc);
-      // 执行指令
-      instruction.eval(frame);
-    } while (instructions.containsKey(frame.pc));
-  }
-}
 
 public class Main {
 
@@ -427,13 +128,13 @@ public class Main {
     instructionMap.put(3, new IReturnInst());
 
     // 准备解释
-    Frame frame = new Frame();
+    Frame frame = new Frame(method.getMaxLocals(), method.getMaxStack());
     Interpreter.run(frame, instructionMap);
   }
 	public static void main(String[] args) {
 		Map<Integer, Instruction> instructionMap = parse(args[0]);
 
-		Frame frame = new Frame();
+		Frame frame = new Frame(method.getMaxLocals(), method.getMaxStack());
 		Interpreter.run(frame, instructionMap);
 	}
 
@@ -449,7 +150,7 @@ public class Main {
 
     Map<Integer, Instruction> instructionMap = classFile.methods[1].getCode(classFile).getInstructions(classFile.constantPool);
     if (instructionMap != null) {
-      Frame frame = new Frame();
+      Frame frame = new Frame(method.getMaxLocals(), method.getMaxStack());
       Interpreter.run(frame, instructionMap);
     }
   }
@@ -489,6 +190,7 @@ public class Main {
     // 组装 classpath，并构建 ClassLoader 实例
     classpath = runtimeJarPath + ":" + classpath;
     final ClassLoader loader = new ClassLoader(classpath);
+    MetaSpace.setClassLoader(loader);
     // 加载主类
     final Class main = loader.findClass(mainClass);
     // 执行主类的第二个方法
@@ -500,7 +202,7 @@ public class Main {
       System.exit(-1);
     }
 
-    Frame frame = new Frame();
+    Frame frame = new Frame(method.getMaxLocals(), method.getMaxStack());
     Interpreter.run(frame, instructions);
  }
 

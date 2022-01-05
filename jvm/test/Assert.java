@@ -34,5 +34,45 @@ public abstract class Assert {
     System.exit(1);
   }
 
+  public static void assertEq(long expect, long actual, String message) {
+    if (expect == actual) {
+      System.out.println(String.format("Running test, %s ..." + " %sPassed%s", message, GREEN, NO_COLOR));
+      return;
+    }
+    String mes = String.format("Running test, %s ..." + " %sFailed%s, expect %s but %s, Aborting.", message, RED, NO_COLOR, expect, actual);
+    System.out.println(mes);
+    System.exit(1);
+  }
+
+  public static void assertEq(float expect, float actual, String message) {
+    if (expect == actual) {
+      System.out.println(String.format("Running test, %s ..." + " %sPassed%s", message, GREEN, NO_COLOR));
+      return;
+    }
+    String mes = String.format("Running test, %s ..." + " %sFailed%s, expect %s but %s, Aborting.", message, RED, NO_COLOR, expect, actual);
+    System.out.println(mes);
+    System.exit(1);
+  }
+
+  public static void assertEq(double expect, double actual, String message) {
+    if (expect == actual) {
+      System.out.println(String.format("Running test, %s ..." + " %sPassed%s", message, GREEN, NO_COLOR));
+      return;
+    }
+    String mes = String.format("Running test, %s ..." + " %sFailed%s, expect %s but %s, Aborting.", message, RED, NO_COLOR, expect, actual);
+    System.out.println(mes);
+    System.exit(1);
+  }
+
+  public static void assertEq(Object expect, Object actual, String message) {
+    if (expect == actual) {
+      System.out.println(String.format("Running test, %s ..." + " %sPassed%s", message, GREEN, NO_COLOR));
+      return;
+    }
+    String mes = String.format("Running test, %s ..." + " %sFailed%s, expect %s but %s, Aborting.", message, RED, NO_COLOR, expect, actual);
+    System.out.println(mes);
+    System.exit(1);
+  }
+
 }
 
