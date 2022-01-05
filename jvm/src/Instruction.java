@@ -279,3 +279,66 @@ class ISubInst implements Instruction {
   }
 }
 
+// getstatic
+class GetStaticInst implements Instruction {
+
+  final String clazz;
+  final String name;
+  final String descriptor;
+
+  GetStaticInst(String clazz, String name, String descriptor) {
+    this.clazz = clazz;
+    this.name = name;
+    this.descriptor = descriptor;
+  }
+
+  @Override
+  public int offset() {
+    return 3;
+  }
+
+  @Override
+  public void eval(Frame frame) {
+    // TODO real code
+    frame.pushRef(null);
+
+    frame.pc += offset();
+  }
+}
+
+// invokevirual
+class InvokeVirtualInst implements Instruction {
+
+  final String clazz;
+  final String name;
+  final String descriptor;
+
+  InvokeVirtualInst(String clazz, String name, String descriptor) {
+    this.clazz = clazz;
+    this.name = name;
+    this.descriptor = descriptor;
+  }
+
+  @Override
+  public int offset() {
+    return 3;
+  }
+
+  @Override
+  public void eval(Frame frame) {
+    final int val = frame.popInt();
+    frame.popRef(); // out
+    System.out.println(val);
+
+    frame.pc += offset();
+  }
+}
+
+// ireturn
+class ReturnInst implements Instruction {
+
+  @Override
+  public void eval(Frame frame) {
+    frame.pc += offset();
+  }
+}

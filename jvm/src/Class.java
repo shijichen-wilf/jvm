@@ -184,7 +184,30 @@ class Code {
             instructionMap.put(pc, new ISubInst());
             pc++;
             break;
-         default:
+            // getstatic 指令解析后包含三个参数，字段所属类，字段名，字段描述符
+          case 0xb2:
+            final int gsfi = dis.readUnsignedShort();
+            instructionMap.put(pc,
+                    new GetStaticInst(Utils.getClassNameFromFieldRef(cp, gsfi), Utils.getNameFromFieldRef(cp, gsfi),
+                            Utils.getDescriptorFromFieldRef(cp, gsfi))
+            );
+            pc += 3;
+            break;
+            // invokevirtual 指令解析后包含三个参数，方法所属类，方法名，方法描述符，调用虚方法指令
+          case 0xb6:
+            final int ivi = dis.readUnsignedShort();
+            instructionMap.put(pc,
+                    new InvokeVirtualInst(Utils.getClassNameFromMethodRef(cp, ivi), Utils.getNameFromMethodRef(cp, ivi),
+                            Utils.getDescriptorFromMethodRef(cp, ivi))
+            );
+            pc += 3;
+            break;
+            // ireturn
+          case 0xb1:
+            instructionMap.put(pc, new ReturnInst());
+            pc++;
+            break;
+          default:
            throw new IllegalStateException("unknown opcode " + opcode);
         }
       }
