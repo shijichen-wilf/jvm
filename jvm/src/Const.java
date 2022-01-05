@@ -19,6 +19,8 @@ public class Const {
   public static final int CLASS_LINKED = 2;
   public static final int CLASS_INITING= 3;
   public static final int CLASS_INITED = 4;
+  // ACCESS
+  public static final int ACC_STATIC = 0x0008;
 
 }
 

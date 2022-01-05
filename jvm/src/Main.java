@@ -194,10 +194,20 @@ public class Main {
     // 加载主类
     final Class main = loader.findClass(mainClass);
     // 执行主类的第二个方法
-    final Method method = main.methods[1];
-    final Map<Integer, Instruction> instructions = method.getInstructions();
+//    final Method method = main.methods[1];
+//    final Map<Integer, Instruction> instructions = method.getInstructions();
 
-    if (instructions == null) {
+	  // 实验6
+	  Method method = main.getSpecialStaticMethod("main", "([Ljava/lang/String;)V");
+	  if (method == null) {
+		  System.out.println("not found main method for " + main.name);
+		  System.exit(-1);
+	  }
+
+	  final Map<Integer, Instruction> instructions = method.getInstructions();
+
+
+	  if (instructions == null) {
       System.out.println("not found method code instructions");
       System.exit(-1);
     }

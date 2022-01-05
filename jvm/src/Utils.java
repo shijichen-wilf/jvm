@@ -134,6 +134,12 @@ public class Utils {
     return getDescriptorFromNameAndType(cp, idx);
   }
 
+  /**
+   * 判定访问标志是否是 static
+   */
+  public static boolean isStatic(int accessFlags) {
+    return (accessFlags & Const.ACC_STATIC) != 0;
+  }
 
 }
 

@@ -24,6 +24,26 @@ class Class {
       }
     }
   }
+
+  /**
+   * 获取当前类的静态方法
+   * 遍历类的方法列表，判断是否是静态方法，如果是，判断方法名和描述符是否匹配，如果是，返回该方法，否则返回 null
+   * @param name 方法名
+   * @param descriptor 方法描述符
+   * @return return null if not matchable
+   */
+  public Method getSpecialStaticMethod(String name, String descriptor) {
+    for (Method method : methods) {
+      if (!Utils.isStatic(method.accessFlags)) {
+        continue;
+      }
+      if (Objects.equals(name, method.name) && Objects.equals(descriptor, method.descriptor)) {
+        return method;
+      }
+    }
+    return null;
+  }
+
 }
 
 /**
@@ -217,6 +237,8 @@ class Code {
 
     return instructionMap;
   }
+
+
 }
 
 /**
