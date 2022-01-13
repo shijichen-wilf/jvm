@@ -421,7 +421,7 @@ class LloadInst implements Instruction {
 
   @Override
   public void eval(Frame frame) {
-    frame.pushInt(frame.getInt(idx));
+    frame.pushLong(frame.getLong(idx));
     frame.pc += offset();
   }
 
@@ -443,7 +443,7 @@ class FloadInst implements Instruction {
 
   @Override
   public void eval(Frame frame) {
-    frame.pushInt(frame.getInt(idx));
+    frame.pushFloat(frame.getFloat(idx));
     frame.pc += offset();
   }
 
@@ -465,7 +465,7 @@ class DloadInst implements Instruction {
 
   @Override
   public void eval(Frame frame) {
-    frame.pushInt(frame.getInt(idx));
+    frame.pushDouble(frame.getDouble(idx));
     frame.pc += offset();
   }
 
