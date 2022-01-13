@@ -560,7 +560,7 @@ class Iload_2Inst implements Instruction {
 class Iload_3Inst implements Instruction {
   @Override
   public void eval(Frame frame) {
-    frame.pushInt(frame.getInt(2));
+    frame.pushInt(frame.getInt(3));
     frame.pc += offset();
   }
 
@@ -594,7 +594,7 @@ class Lload_0Inst implements Instruction {
 class Lload_1Inst implements Instruction {
   @Override
   public void eval(Frame frame) {
-    frame.pushLong(frame.getLong(0));
+    frame.pushLong(frame.getLong(1));
     frame.pc += offset();
   }
 
@@ -611,7 +611,7 @@ class Lload_1Inst implements Instruction {
 class Lload_2Inst implements Instruction {
   @Override
   public void eval(Frame frame) {
-    frame.pushLong(frame.getLong(0));
+    frame.pushLong(frame.getLong(2));
     frame.pc += offset();
   }
 
@@ -628,7 +628,7 @@ class Lload_2Inst implements Instruction {
 class Lload_3Inst implements Instruction {
   @Override
   public void eval(Frame frame) {
-    frame.pushLong(frame.getLong(0));
+    frame.pushLong(frame.getLong(3));
     frame.pc += offset();
   }
 
@@ -662,7 +662,7 @@ class Fload_0Inst implements Instruction {
 class Fload_1Inst implements Instruction {
   @Override
   public void eval(Frame frame) {
-    frame.pushFloat(frame.getFloat(0));
+    frame.pushFloat(frame.getFloat(1));
     frame.pc += offset();
   }
 
@@ -679,7 +679,7 @@ class Fload_1Inst implements Instruction {
 class Fload_2Inst implements Instruction {
   @Override
   public void eval(Frame frame) {
-    frame.pushFloat(frame.getFloat(0));
+    frame.pushFloat(frame.getFloat(2));
     frame.pc += offset();
   }
 
@@ -696,7 +696,7 @@ class Fload_2Inst implements Instruction {
 class Fload_3Inst implements Instruction {
   @Override
   public void eval(Frame frame) {
-    frame.pushFloat(frame.getFloat(0));
+    frame.pushFloat(frame.getFloat(3));
     frame.pc += offset();
   }
 
@@ -713,8 +713,8 @@ class Fload_3Inst implements Instruction {
 class Dload_0Inst implements Instruction {
   @Override
   public void eval(Frame frame) {
+    frame.pushDouble(frame.getDouble(0));
     frame.pc += offset();
-    throw new IllegalStateException();
   }
 
   @Override
@@ -723,15 +723,15 @@ class Dload_0Inst implements Instruction {
   }
 
   static Dload_0Inst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
-    throw new IllegalStateException("parse Dload_0Inst");
+    return new Dload_0Inst();
   }
 }
 
 class Dload_1Inst implements Instruction {
   @Override
   public void eval(Frame frame) {
+    frame.pushDouble(frame.getDouble(1));
     frame.pc += offset();
-    throw new IllegalStateException();
   }
 
   @Override
@@ -740,15 +740,15 @@ class Dload_1Inst implements Instruction {
   }
 
   static Dload_1Inst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
-    throw new IllegalStateException("parse Dload_1Inst");
+    return new Dload_1Inst();
   }
 }
 
 class Dload_2Inst implements Instruction {
   @Override
   public void eval(Frame frame) {
+    frame.pushDouble(frame.getDouble(2));
     frame.pc += offset();
-    throw new IllegalStateException();
   }
 
   @Override
@@ -757,15 +757,15 @@ class Dload_2Inst implements Instruction {
   }
 
   static Dload_2Inst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
-    throw new IllegalStateException("parse Dload_2Inst");
+    return new Dload_2Inst();
   }
 }
 
 class Dload_3Inst implements Instruction {
   @Override
   public void eval(Frame frame) {
+    frame.pushDouble(frame.getDouble(3));
     frame.pc += offset();
-    throw new IllegalStateException();
   }
 
   @Override
@@ -774,7 +774,7 @@ class Dload_3Inst implements Instruction {
   }
 
   static Dload_3Inst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
-    throw new IllegalStateException("parse Dload_3Inst");
+    return new Dload_3Inst();
   }
 }
 
@@ -983,70 +983,90 @@ class SaloadInst implements Instruction {
 }
 
 class IstoreInst implements Instruction {
+  final int idx;
+  IstoreInst(int idx) {
+    this.idx = idx;
+  }
+
   @Override
   public void eval(Frame frame) {
+    frame.setInt(idx, frame.popInt());
     frame.pc += offset();
-    throw new IllegalStateException();
   }
 
   @Override
   public int offset() {
-    return 1;
+    return 2;
   }
 
   static IstoreInst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
-    throw new IllegalStateException("parse IstoreInst");
+    return new IstoreInst(dis.readUnsignedByte());
   }
 }
 
 class LstoreInst implements Instruction {
+  final int idx;
+  LstoreInst(int idx) {
+    this.idx = idx;
+  }
+
   @Override
   public void eval(Frame frame) {
+    frame.setLong(idx, frame.popLong());
     frame.pc += offset();
-    throw new IllegalStateException();
   }
 
   @Override
   public int offset() {
-    return 1;
+    return 2;
   }
 
   static LstoreInst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
-    throw new IllegalStateException("parse LstoreInst");
+    return new LstoreInst(dis.readUnsignedByte());
   }
 }
 
 class FstoreInst implements Instruction {
+  final int idx;
+  FstoreInst(int idx) {
+    this.idx = idx;
+  }
+
   @Override
   public void eval(Frame frame) {
+    frame.setFloat(idx, frame.popFloat());
     frame.pc += offset();
-    throw new IllegalStateException();
   }
 
   @Override
   public int offset() {
-    return 1;
+    return 2;
   }
 
   static FstoreInst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
-    throw new IllegalStateException("parse FstoreInst");
+    return new FstoreInst(dis.readUnsignedByte());
   }
 }
 
 class DstoreInst implements Instruction {
+  final int idx;
+  DstoreInst(int idx) {
+    this.idx = idx;
+  }
+
   @Override
   public void eval(Frame frame) {
+    frame.setDouble(idx, frame.popDouble());
     frame.pc += offset();
-    throw new IllegalStateException();
   }
 
   @Override
   public int offset() {
-    return 1;
+    return 2;
   }
 
   static DstoreInst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
-    throw new IllegalStateException("parse DstoreInst");
+    return new DstoreInst(dis.readUnsignedByte());
   }
 }
 
@@ -1070,8 +1090,8 @@ class AstoreInst implements Instruction {
 class Istore_0Inst implements Instruction {
   @Override
   public void eval(Frame frame) {
+    frame.setInt(0, frame.popInt());
     frame.pc += offset();
-    throw new IllegalStateException();
   }
 
   @Override
@@ -1080,7 +1100,7 @@ class Istore_0Inst implements Instruction {
   }
 
   static Istore_0Inst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
-    throw new IllegalStateException("parse Istore_0Inst");
+    return new Istore_0Inst();
   }
 }
 
@@ -1131,8 +1151,8 @@ class Istore_2Inst implements Instruction {
 class Istore_3Inst implements Instruction {
   @Override
   public void eval(Frame frame) {
+    frame.setInt(3, frame.popInt());
     frame.pc += offset();
-    throw new IllegalStateException();
   }
 
   @Override
@@ -1141,15 +1161,15 @@ class Istore_3Inst implements Instruction {
   }
 
   static Istore_3Inst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
-    throw new IllegalStateException("parse Istore_3Inst");
+    return new Istore_3Inst();
   }
 }
 
 class Lstore_0Inst implements Instruction {
   @Override
   public void eval(Frame frame) {
+    frame.setLong(0, frame.popLong());
     frame.pc += offset();
-    throw new IllegalStateException();
   }
 
   @Override
@@ -1158,15 +1178,15 @@ class Lstore_0Inst implements Instruction {
   }
 
   static Lstore_0Inst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
-    throw new IllegalStateException("parse Lstore_0Inst");
+    return new Lstore_0Inst();
   }
 }
 
 class Lstore_1Inst implements Instruction {
   @Override
   public void eval(Frame frame) {
+    frame.setLong(1, frame.popLong());
     frame.pc += offset();
-    throw new IllegalStateException();
   }
 
   @Override
@@ -1175,15 +1195,15 @@ class Lstore_1Inst implements Instruction {
   }
 
   static Lstore_1Inst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
-    throw new IllegalStateException("parse Lstore_1Inst");
+    return new Lstore_1Inst();
   }
 }
 
 class Lstore_2Inst implements Instruction {
   @Override
   public void eval(Frame frame) {
+    frame.setLong(2, frame.popLong());
     frame.pc += offset();
-    throw new IllegalStateException();
   }
 
   @Override
@@ -1192,15 +1212,15 @@ class Lstore_2Inst implements Instruction {
   }
 
   static Lstore_2Inst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
-    throw new IllegalStateException("parse Lstore_2Inst");
+    return new Lstore_2Inst();
   }
 }
 
 class Lstore_3Inst implements Instruction {
   @Override
   public void eval(Frame frame) {
+    frame.setLong(3, frame.popLong());
     frame.pc += offset();
-    throw new IllegalStateException();
   }
 
   @Override
@@ -1209,15 +1229,15 @@ class Lstore_3Inst implements Instruction {
   }
 
   static Lstore_3Inst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
-    throw new IllegalStateException("parse Lstore_3Inst");
+    return new Lstore_3Inst();
   }
 }
 
 class Fstore_0Inst implements Instruction {
   @Override
   public void eval(Frame frame) {
+    frame.setFloat(0, frame.popFloat());
     frame.pc += offset();
-    throw new IllegalStateException();
   }
 
   @Override
@@ -1226,15 +1246,15 @@ class Fstore_0Inst implements Instruction {
   }
 
   static Fstore_0Inst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
-    throw new IllegalStateException("parse Fstore_0Inst");
+    return new Fstore_0Inst();
   }
 }
 
 class Fstore_1Inst implements Instruction {
   @Override
   public void eval(Frame frame) {
+    frame.setFloat(1, frame.popFloat());
     frame.pc += offset();
-    throw new IllegalStateException();
   }
 
   @Override
@@ -1243,15 +1263,15 @@ class Fstore_1Inst implements Instruction {
   }
 
   static Fstore_1Inst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
-    throw new IllegalStateException("parse Fstore_1Inst");
+    return new Fstore_1Inst();
   }
 }
 
 class Fstore_2Inst implements Instruction {
   @Override
   public void eval(Frame frame) {
+    frame.setFloat(2, frame.popFloat());
     frame.pc += offset();
-    throw new IllegalStateException();
   }
 
   @Override
@@ -1260,15 +1280,15 @@ class Fstore_2Inst implements Instruction {
   }
 
   static Fstore_2Inst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
-    throw new IllegalStateException("parse Fstore_2Inst");
+    return new Fstore_2Inst();
   }
 }
 
 class Fstore_3Inst implements Instruction {
   @Override
   public void eval(Frame frame) {
+    frame.setFloat(3, frame.popFloat());
     frame.pc += offset();
-    throw new IllegalStateException();
   }
 
   @Override
@@ -1277,15 +1297,15 @@ class Fstore_3Inst implements Instruction {
   }
 
   static Fstore_3Inst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
-    throw new IllegalStateException("parse Fstore_3Inst");
+    return new Fstore_3Inst();
   }
 }
 
 class Dstore_0Inst implements Instruction {
   @Override
   public void eval(Frame frame) {
+    frame.setDouble(0, frame.popDouble());
     frame.pc += offset();
-    throw new IllegalStateException();
   }
 
   @Override
@@ -1294,15 +1314,15 @@ class Dstore_0Inst implements Instruction {
   }
 
   static Dstore_0Inst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
-    throw new IllegalStateException("parse Dstore_0Inst");
+    return new Dstore_0Inst();
   }
 }
 
 class Dstore_1Inst implements Instruction {
   @Override
   public void eval(Frame frame) {
+    frame.setDouble(1, frame.popDouble());
     frame.pc += offset();
-    throw new IllegalStateException();
   }
 
   @Override
@@ -1311,15 +1331,15 @@ class Dstore_1Inst implements Instruction {
   }
 
   static Dstore_1Inst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
-    throw new IllegalStateException("parse Dstore_1Inst");
+    return new Dstore_1Inst();
   }
 }
 
 class Dstore_2Inst implements Instruction {
   @Override
   public void eval(Frame frame) {
+    frame.setDouble(2, frame.popDouble());
     frame.pc += offset();
-    throw new IllegalStateException();
   }
 
   @Override
@@ -1328,15 +1348,15 @@ class Dstore_2Inst implements Instruction {
   }
 
   static Dstore_2Inst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
-    throw new IllegalStateException("parse Dstore_2Inst");
+    return new Dstore_2Inst();
   }
 }
 
 class Dstore_3Inst implements Instruction {
   @Override
   public void eval(Frame frame) {
+    frame.setDouble(3, frame.popDouble());
     frame.pc += offset();
-    throw new IllegalStateException();
   }
 
   @Override
@@ -1345,7 +1365,7 @@ class Dstore_3Inst implements Instruction {
   }
 
   static Dstore_3Inst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
-    throw new IllegalStateException("parse Dstore_3Inst");
+    return new Dstore_3Inst();
   }
 }
 
