@@ -3135,7 +3135,7 @@ class I2sInst implements Instruction {
     throw new IllegalStateException("parse I2sInst");
   }
 }
-
+/**
 class LcmpInst implements Instruction {
   @Override
   public void eval(Frame frame) {
@@ -3433,6 +3433,368 @@ class If_icmpleInst implements Instruction {
 
   static If_icmpleInst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
     throw new IllegalStateException("parse If_icmpleInst");
+  }
+}
+*/
+
+class LcmpInst implements Instruction {
+  public void eval(Frame frame) {
+    final long v2 = frame.popLong();
+    final long v1 = frame.popLong();
+    int ret = 0;
+    if (v1 > v2) {
+      ret = 1;
+    } else if (v1 < v2) {
+      ret = -1;
+    }
+    frame.pushInt(ret);
+    frame.pc += offset();
+  }
+  static LcmpInst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
+    return new LcmpInst();
+  }
+}
+
+class FcmplInst implements Instruction {
+  public void eval(Frame frame) {
+    final float v2 = frame.popFloat();
+    final float v1 = frame.popFloat();
+    int ret = 0;
+    if (Float.isNaN(v1) || Float.isNaN(v2)) {
+      ret = 1;
+    } else if (v1 > v2) {
+      ret = 1;
+    } else if (v1 < v2) {
+      ret = -1;
+    }
+    frame.pushInt(ret);
+    frame.pc += offset();
+  }
+  static FcmplInst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
+    return new FcmplInst();
+  }
+}
+
+class FcmpgInst implements Instruction {
+  public void eval(Frame frame) {
+    final float v2 = frame.popFloat();
+    final float v1 = frame.popFloat();
+    int ret = 0;
+    if (Float.isNaN(v1) || Float.isNaN(v2)) {
+      ret = 1;
+    } else if (v1 > v2) {
+      ret = 1;
+    } else if (v1 < v2) {
+      ret = -1;
+    }
+    frame.pushInt(ret);
+    frame.pc += offset();
+  }
+  static FcmpgInst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
+    return new FcmpgInst();
+  }
+}
+
+class DcmplInst implements Instruction {
+
+  @Override
+  public void eval(Frame frame) {
+    final double v2 = frame.popDouble();
+    final double v1 = frame.popDouble();
+    int ret = 0;
+    if (Double.isNaN(v1) || Double.isNaN(v2)) {
+      ret = 1;
+    } else if (v1 > v2) {
+      ret = 1;
+    } else if (v1 < v2) {
+      ret = -1;
+    }
+    frame.pushInt(ret);
+    frame.pc += offset();
+  }
+  static DcmplInst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
+    return new DcmplInst();
+  }
+}
+
+class DcmpgInst implements Instruction {
+
+  @Override
+  public void eval(Frame frame) {
+    final double v2 = frame.popDouble();
+    final double v1 = frame.popDouble();
+    int ret = 0;
+    if (Double.isNaN(v1) || Double.isNaN(v2)) {
+      ret = 1;
+    } else if (v1 > v2) {
+      ret = 1;
+    } else if (v1 < v2) {
+      ret = -1;
+    }
+    frame.pushInt(ret);
+    frame.pc += offset();
+  }
+  static DcmpgInst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
+    return new DcmpgInst();
+  }
+}
+
+class IfeqInst implements Instruction {
+  final int offset;
+  IfeqInst(int offset) {
+    this.offset = offset;
+  }
+  public void eval(Frame frame) {
+    final int val = frame.popInt();
+    if (val == 0) {
+      frame.pc += offset;
+      return;
+    }
+    frame.pc += offset();
+  }
+  public int offset() {
+    return 3;
+  }
+  static IfeqInst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
+    return new IfeqInst(dis.readShort());
+  }
+}
+
+class IfneInst implements Instruction {
+  final int offset;
+  IfneInst(int offset) {
+    this.offset = offset;
+  }
+  public void eval(Frame frame) {
+    final int val = frame.popInt();
+    if (val != 0) {
+      frame.pc += offset;
+      return;
+    }
+    frame.pc += offset();
+  }
+  public int offset() {
+    return 3;
+  }
+  static IfneInst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
+    return new IfneInst(dis.readShort());
+  }
+}
+
+class IfltInst implements Instruction {
+  final int offset;
+  IfltInst(int offset) {
+    this.offset = offset;
+  }
+  public void eval(Frame frame) {
+    final int val = frame.popInt();
+    if (val < 0) {
+      frame.pc += offset;
+      return;
+    }
+    frame.pc += offset();
+  }
+  public int offset() {
+    return 3;
+  }
+  static IfltInst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
+    return new IfltInst(dis.readShort());
+  }
+}
+
+class IfgeInst implements Instruction {
+  final int offset;
+  IfgeInst(int offset) {
+    this.offset = offset;
+  }
+  public void eval(Frame frame) {
+    int val = frame.popInt();
+    if (val >= 0) {
+      frame.pc += offset;
+      return;
+    }
+    frame.pc += offset();
+  }
+  public int offset() {
+    return 3;
+  }
+  static IfgeInst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
+    return new IfgeInst(dis.readShort());
+  }
+}
+
+class IfgtInst implements Instruction {
+  final int offset;
+  IfgtInst(int offset) {
+    this.offset = offset;
+  }
+  public void eval(Frame frame) {
+    int val = frame.popInt();
+    if (val > 0) {
+      frame.pc += offset;
+      return;
+    }
+    frame.pc += offset();
+  }
+  public int offset() {
+    return 3;
+  }
+  static IfgtInst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
+    return new IfgtInst(dis.readShort());
+  }
+}
+
+class IfleInst implements Instruction {
+  final int offset;
+  IfleInst(int offset) {
+    this.offset = offset;
+  }
+  public void eval(Frame frame) {
+    int val = frame.popInt();
+    if (val <= 0) {
+      frame.pc += offset;
+      return;
+    }
+    frame.pc += offset();
+  }
+  public int offset() {
+    return 3;
+  }
+  static IfleInst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
+    return new IfleInst(dis.readShort());
+  }
+}
+
+class If_icmpeqInst implements Instruction {
+  final int offset;
+  If_icmpeqInst(int offset) {
+    this.offset = offset;
+  }
+  public void eval(Frame frame) {
+    int v2 = frame.popInt();
+    int v1 = frame.popInt();
+    if (v1 == v2) {
+      frame.pc += offset;
+      return;
+    }
+
+    frame.pc += offset();
+  }
+  public int offset() {
+    return 3;
+  }
+  static If_icmpeqInst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
+    return new If_icmpeqInst(dis.readShort());
+  }
+}
+
+class If_icmpneInst implements Instruction {
+  final int offset;
+  If_icmpneInst(int offset) {
+    this.offset = offset;
+  }
+  public void eval(Frame frame) {
+    int v2 = frame.popInt();
+    int v1 = frame.popInt();
+    if (v1 != v2) {
+      frame.pc += offset;
+      return;
+    }
+    frame.pc += offset();
+  }
+  public int offset() {
+    return 3;
+  }
+  static If_icmpneInst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
+    return new If_icmpneInst(dis.readShort());
+  }
+}
+
+class If_icmpltInst implements Instruction {
+  final int offset;
+  If_icmpltInst(int offset) {
+    this.offset = offset;
+  }
+  public void eval(Frame frame) {
+    int v2 = frame.popInt();
+    int v1 = frame.popInt();
+    if (v1 <= v2) {
+      frame.pc += offset;
+      return;
+    }
+    frame.pc += offset();
+  }
+  public int offset() {
+    return 3;
+  }
+  static If_icmpltInst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
+    return new If_icmpltInst(dis.readShort());
+  }
+}
+
+class If_icmpgeInst implements Instruction {
+  final int offset;
+  If_icmpgeInst(int offset) {
+    this.offset = offset;
+  }
+  public void eval(Frame frame) {
+    int v2 = frame.popInt();
+    int v1 = frame.popInt();
+    if (v1 >= v2) {
+      frame.pc += offset;
+      return;
+    }
+    frame.pc += offset();
+  }
+  public int offset() {
+    return 3;
+  }
+  static If_icmpgeInst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
+    return new If_icmpgeInst(dis.readShort());
+  }
+}
+
+class If_icmpgtInst implements Instruction {
+  public final int offset;
+  public If_icmpgtInst(int offset) {
+    this.offset = offset;
+  }
+  public void eval(Frame frame) {
+    int v2 = frame.popInt();
+    int v1 = frame.popInt();
+    if (v1 > v2) {
+      frame.pc += offset;
+      return;
+    }
+    frame.pc += offset();
+  }
+  public int offset() {
+    return 3;
+  }
+  static If_icmpgtInst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
+    return new If_icmpgtInst(dis.readShort());
+  }
+}
+
+class If_icmpleInst implements Instruction {
+  final int offset;
+  If_icmpleInst(int offset) {
+    this.offset = offset;
+  }
+  public void eval(Frame frame) {
+    int v2 = frame.popInt();
+    int v1 = frame.popInt();
+    if (v1 <= v2) {
+      frame.pc += offset;
+      return;
+    }
+    frame.pc += offset();
+  }
+  public int offset() {
+    return 3;
+  }
+  static If_icmpleInst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
+    return new If_icmpleInst(dis.readShort());
   }
 }
 
