@@ -1725,7 +1725,7 @@ class SwapInst implements Instruction {
     throw new IllegalStateException("parse SwapInst");
   }
 }
-
+/**
 class IaddInst implements Instruction {
   @Override
   public void eval(Frame frame) {
@@ -2363,6 +2363,519 @@ class IincInst implements Instruction {
     return 3;
   }
 
+  static IincInst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
+    return new IincInst(dis.readUnsignedByte(), dis.readByte());
+  }
+}
+*/
+
+class IaddInst implements Instruction {
+  public void eval(Frame frame) {
+    int v2 = frame.popInt();
+    int v1 = frame.popInt();
+    frame.pushInt(v1 + v2);
+    frame.pc += offset();
+  }
+  static IaddInst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
+    return new IaddInst();
+  }
+}
+
+class LaddInst implements Instruction {
+  public void eval(Frame frame) {
+    final long v2 = frame.popLong();
+    final long v1 = frame.popLong();
+    frame.pushLong(v1 + v2);
+    frame.pc += offset();
+  }
+  static LaddInst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
+    return new LaddInst();
+  }
+}
+
+class FaddInst implements Instruction {
+  public void eval(Frame frame) {
+    final float v2 = frame.popFloat();
+    final float v1 = frame.popFloat();
+    frame.pushFloat(v1 + v2);
+    frame.pc += offset();
+  }
+  static FaddInst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
+    return new FaddInst();
+  }
+}
+
+class DaddInst implements Instruction {
+  public void eval(Frame frame) {
+    final double v2 = frame.popDouble();
+    final double v1 = frame.popDouble();
+    frame.pushDouble(v1 + v2);
+    frame.pc += offset();
+  }
+
+  static DaddInst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
+    return new DaddInst();
+  }
+}
+
+class IsubInst implements Instruction {
+  public void eval(Frame frame) {
+    final int v2 = frame.popInt();
+    final int v1 = frame.popInt();
+    frame.pushInt(v1 - v2);
+    frame.pc += offset();
+  }
+  public int offset() {
+    return 1;
+  }
+  static IsubInst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
+    return new IsubInst();
+  }
+}
+
+class LsubInst implements Instruction {
+  public void eval(Frame frame) {
+    final long v2 = frame.popLong();
+    final long v1 = frame.popLong();
+    frame.pushLong(v1 - v2);
+    frame.pc += offset();
+  }
+  static LsubInst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
+    return new LsubInst();
+  }
+}
+
+class FsubInst implements Instruction {
+  public void eval(Frame frame) {
+    final float v2 = frame.popFloat();
+    final float v1 = frame.popFloat();
+    frame.pushFloat(v1 - v2);
+    frame.pc += offset();
+  }
+  static FsubInst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
+    return new FsubInst();
+  }
+}
+
+class DsubInst implements Instruction {
+  public void eval(Frame frame) {
+    final double v2 = frame.popDouble();
+    final double v1 = frame.popDouble();
+    frame.pushDouble(v1 - v2);
+    frame.pc += offset();
+  }
+  static DsubInst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
+    return new DsubInst();
+  }
+}
+
+class ImulInst implements Instruction {
+  public void eval(Frame frame) {
+    final int v2 = frame.popInt();
+    final int v1 = frame.popInt();
+    frame.pushInt(v1 * v2);
+    frame.pc += offset();
+  }
+  static ImulInst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
+    return new ImulInst();
+  }
+}
+
+class LmulInst implements Instruction {
+  public void eval(Frame frame) {
+    final long v2 = frame.popLong();
+    final long v1 = frame.popLong();
+    frame.pushLong(v1 * v2);
+    frame.pc += offset();
+  }
+  static LmulInst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
+    return new LmulInst();
+  }
+}
+
+class FmulInst implements Instruction {
+  public void eval(Frame frame) {
+    final float v2 = frame.popFloat();
+    final float v1 = frame.popFloat();
+    frame.pushFloat(v1 * v2);
+    frame.pc += offset();
+  }
+  static FmulInst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
+    return new FmulInst();
+  }
+}
+
+class DmulInst implements Instruction {
+  public void eval(Frame frame) {
+    final double v2 = frame.popDouble();
+    final double v1 = frame.popDouble();
+    frame.pushDouble(v1 * v2);
+    frame.pc += offset();
+  }
+  static DmulInst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
+    return new DmulInst();
+  }
+}
+
+class IdivInst implements Instruction {
+  public void eval(Frame frame) {
+    final int v2 = frame.popInt();
+    final int v1 = frame.popInt();
+    frame.pushInt(v1 / v2);
+    frame.pc += offset();
+  }
+  static IdivInst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
+    return new IdivInst();
+  }
+}
+
+class LdivInst implements Instruction {
+  public void eval(Frame frame) {
+    final long v2 = frame.popLong();
+    final long v1 = frame.popLong();
+    frame.pushLong(v1 / v2);
+    frame.pc += offset();
+  }
+  static LdivInst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
+    return new LdivInst();
+  }
+}
+
+class FdivInst implements Instruction {
+  public void eval(Frame frame) {
+    final float v2 = frame.popFloat();
+    final float v1 = frame.popFloat();
+    frame.pushFloat(v1 / v2);
+    frame.pc += offset();
+  }
+  static FdivInst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
+    return new FdivInst();
+  }
+}
+
+class DdivInst implements Instruction {
+  public void eval(Frame frame) {
+    final double v2 = frame.popDouble();
+    final double v1 = frame.popDouble();
+    frame.pushDouble(v1 / v2);
+    frame.pc += offset();
+  }
+  static DdivInst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
+    return new DdivInst();
+  }
+}
+
+class IremInst implements Instruction {
+  public void eval(Frame frame) {
+    final int v2 = frame.popInt();
+    final int v1 = frame.popInt();
+    frame.pushInt(v1 % v2);
+    frame.pc += offset();
+  }
+  static IremInst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
+    return new IremInst();
+  }
+}
+
+class LremInst implements Instruction {
+  public void eval(Frame frame) {
+    final long v2 = frame.popLong();
+    final long v1 = frame.popLong();
+    frame.pushLong(v1 % v2);
+    frame.pc += offset();
+  }
+  static LremInst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
+    return new LremInst();
+  }
+}
+
+class FremInst implements Instruction {
+  public void eval(Frame frame) {
+    final float v2 = frame.popFloat();
+    final float v1 = frame.popFloat();
+    frame.pushFloat(v1 % v2);
+    frame.pc += offset();
+  }
+  static FremInst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
+    return new FremInst();
+  }
+}
+
+class DremInst implements Instruction {
+  public void eval(Frame frame) {
+    final double v2 = frame.popDouble();
+    final double v1 = frame.popDouble();
+    frame.pushDouble(v1 % v2);
+    frame.pc += offset();
+  }
+  static DremInst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
+    return new DremInst();
+  }
+}
+
+class InegInst implements Instruction {
+  public void eval(Frame frame) {
+    final int v1 = frame.popInt();
+    frame.pushInt(-v1);
+    frame.pc += offset();
+  }
+  static InegInst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
+    return new InegInst();
+  }
+}
+
+class LnegInst implements Instruction {
+  public void eval(Frame frame) {
+    final long v1 = frame.popLong();
+    frame.pushLong(-v1);
+    frame.pc += offset();
+  }
+  static LnegInst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
+    return new LnegInst();
+  }
+}
+
+class FnegInst implements Instruction {
+  public void eval(Frame frame) {
+    final float v1 = frame.popFloat();
+    frame.pushFloat(-v1);
+    frame.pc += offset();
+  }
+  static FnegInst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
+    return new FnegInst();
+  }
+}
+
+class DnegInst implements Instruction {
+  public void eval(Frame frame) {
+    final double v1 = frame.popDouble();
+    frame.pushDouble(-v1);
+    frame.pc += offset();
+  }
+  static DnegInst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
+    return new DnegInst();
+  }
+}
+
+class IshlInst implements Instruction {
+
+  public void eval(Frame frame) {
+    int v2 = frame.popInt();
+    int v1 = frame.popInt();
+    int s = v2 & 0x1f;
+    int ret = v1 << s;
+    frame.pushInt(ret);
+
+    frame.pc += offset();
+  }
+
+  public int offset() {
+    return 1;
+  }
+
+  static IshlInst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
+    return new IshlInst();
+  }
+}
+
+class LshlInst implements Instruction {
+
+  public void eval(Frame frame) {
+    int v2 = frame.popInt();
+    long v1 = frame.popLong();
+    int s = v2 & 0x1f;
+    long ret = v1 << s;
+    frame.pushLong(ret);
+
+    frame.pc += offset();
+  }
+
+  public int offset() {
+    return 1;
+  }
+
+  static LshlInst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
+    return new LshlInst();
+  }
+}
+
+class IshrInst implements Instruction {
+
+  @Override
+  public void eval(Frame frame) {
+    int v2 = frame.popInt();
+    int v1 = frame.popInt();
+    int s = v2 & 0x1f;
+    int ret = v1 >> s;
+    frame.pushInt(ret);
+    frame.pc += offset();
+  }
+
+  public int offset() {
+    return 1;
+  }
+
+  static IshrInst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
+    return new IshrInst();
+  }
+}
+
+class LshrInst implements Instruction {
+
+  public void eval(Frame frame) {
+    final long v2 = frame.popLong();
+    final int v1 = frame.popInt();
+    frame.pushLong(v1 >> v2);
+
+    frame.pc += offset();
+  }
+
+  public int offset() {
+    return 1;
+  }
+
+  static LshrInst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
+    return new LshrInst();
+  }
+}
+
+class IushrInst implements Instruction {
+
+  public void eval(Frame frame) {
+    int v2 = frame.popInt();
+    int v1 = frame.popInt();
+    int s = v2 & 0x1f;
+
+    if (v1 >= 0) {
+      int ret = v1 >> s;
+      frame.pushInt(ret);
+    } else {
+      int ret = (v1 >> s) + (2 << ~s);
+      frame.pushInt(ret);
+    }
+    frame.pc += offset();
+  }
+
+  public int offset() {
+    return 1;
+  }
+
+  static IushrInst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
+    return new IushrInst();
+  }
+}
+
+class LushrInst implements Instruction {
+  public void eval(Frame frame) {
+    int v2 = frame.popInt();
+    long v1 = frame.popLong();
+    int s = v2 & 0x3f;
+
+    if (v1 >= 0) {
+      long ret = v1 >> s;
+      frame.pushLong(ret);
+    } else {
+      long ret = (v1 >> s) + (2L << ~s);
+      frame.pushLong(ret);
+    }
+    frame.pc += offset();
+  }
+  public int offset() {
+    return 1;
+  }
+  static LushrInst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
+    return new LushrInst();
+  }
+}
+
+class IandInst implements Instruction {
+  public void eval(Frame frame) {
+    final int v2 = frame.popInt();
+    final int v1 = frame.popInt();
+    frame.pushInt(v1 & v2);
+    frame.pc += offset();
+  }
+  static IandInst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
+    return new IandInst();
+  }
+}
+
+class LandInst implements Instruction {
+  public void eval(Frame frame) {
+    final long v2 = frame.popLong();
+    final long v1 = frame.popLong();
+    frame.pushLong(v1 & v2);
+    frame.pc += offset();
+  }
+  static LandInst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
+    return new LandInst();
+  }
+}
+
+class IorInst implements Instruction {
+  public void eval(Frame frame) {
+    final int v2 = frame.popInt();
+    final int v1 = frame.popInt();
+    frame.pushInt(v1 | v2);
+    frame.pc += offset();
+  }
+  static IorInst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
+    return new IorInst();
+  }
+}
+
+class LorInst implements Instruction {
+  public void eval(Frame frame) {
+    final long v2 = frame.popLong();
+    final long v1 = frame.popLong();
+    frame.pushLong(v1 | v2);
+    frame.pc += offset();
+  }
+  static LorInst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
+    return new LorInst();
+  }
+}
+
+class IxorInst implements Instruction {
+  public void eval(Frame frame) {
+    final int v2 = frame.popInt();
+    final int v1 = frame.popInt();
+    frame.pushInt(v1 ^ v2);
+    frame.pc += offset();
+  }
+  static IxorInst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
+    return new IxorInst();
+  }
+}
+
+class LxorInst implements Instruction {
+  public void eval(Frame frame) {
+    final long v2 = frame.popLong();
+    final long v1 = frame.popLong();
+    frame.pushLong(v1 ^ v2);
+    frame.pc += offset();
+  }
+  static LxorInst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
+    return new LxorInst();
+  }
+}
+
+class IincInst implements Instruction {
+  public final int index;
+  public final int val;
+  public IincInst(int index, int val) {
+    this.index = index;
+    this.val = val;
+  }
+  public void eval(Frame frame) {
+    int tmp = frame.getInt(index);
+    tmp += val;
+    frame.setInt(index, tmp);
+    frame.pc += offset();
+  }
+  public int offset() {
+    return 3;
+  }
   static IincInst parse(java.io.DataInputStream dis, CpInfo[] cp) throws java.io.IOException {
     return new IincInst(dis.readUnsignedByte(), dis.readByte());
   }
